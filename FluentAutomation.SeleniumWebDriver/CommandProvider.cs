@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -40,7 +39,7 @@ namespace FluentAutomation
                     FluentTest.ProviderInstance = webDriver;
 
                 webDriver.Manage().Cookies.DeleteAllCookies();
-                webDriver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+                webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 
                 // If an alert is open, the world ends if we touch the size property. Ignore this and let it get set by the next command chain
                 try
@@ -512,7 +511,7 @@ namespace FluentAutomation
                 // get raw screenshot
                 var screenshotDriver = (ITakesScreenshot)this.webDriver;
                 var tmpImagePath = Path.Combine(this.Settings.UserTempDirectory, screenshotName);
-                screenshotDriver.GetScreenshot().SaveAsFile(tmpImagePath, ImageFormat.Png);
+                screenshotDriver.GetScreenshot().SaveAsFile(tmpImagePath);
 
                 // save to file store
                 this.fileStoreProvider.SaveScreenshot(this.Settings, File.ReadAllBytes(tmpImagePath), screenshotName);
@@ -547,19 +546,23 @@ namespace FluentAutomation
 
         public void Press(string keys)
         {
-            this.Act(CommandType.Action, () => System.Windows.Forms.SendKeys.SendWait(keys));
+            //this.Act(CommandType.Action, () => System.Windows.Forms.SendKeys.SendWait(keys));
+            throw new NotImplementedException("Win32 based events are not currently functioning.");
+
         }
 
         public void Type(string text)
         {
-            this.Act(CommandType.Action, () =>
-            {
-                foreach (var character in text)
-                {
-                    System.Windows.Forms.SendKeys.SendWait(character.ToString());
-                    this.Wait(TimeSpan.FromMilliseconds(20));
-                }
-            });
+            throw new NotImplementedException("Win32 based events are not currently functioning.");
+
+            //this.Act(CommandType.Action, () =>
+            //{
+            //    foreach (var character in text)
+            //    {
+            //        System.Windows.Forms.SendKeys.SendWait(character.ToString());
+            //        this.Wait(TimeSpan.FromMilliseconds(20));
+            //    }
+            //});
         }
 
         public void SwitchToWindow(string windowName)

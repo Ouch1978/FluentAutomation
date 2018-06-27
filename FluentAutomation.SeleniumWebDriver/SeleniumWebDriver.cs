@@ -296,7 +296,9 @@ namespace FluentAutomation
                     throw new FluentException("Selected browser [{0}] not supported. Unable to determine appropriate capabilities.", browser.ToString());
             }
 
-            browserCapabilities.IsJavaScriptEnabled = true;
+            //browserCapabilities.IsJavaScriptEnabled = true;
+
+            browserCapabilities.SetCapability( "IsJavaScriptEnabled" , true);
             return browserCapabilities;
         }
     }
